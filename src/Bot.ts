@@ -1,7 +1,9 @@
-import { bot } from "./bot/index";
+import { bot } from "./bot";
+import { ConnectDB } from "./config/db";
 
-async function Bot() {
+export async function Bot() {
   try {
+    await ConnectDB();
     const botInfo = await bot.telegram.getMe();
     console.log(`🤖 Logged in as @${botInfo.username}`);
     console.log("🚀 Launching bot...");
