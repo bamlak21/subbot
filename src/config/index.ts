@@ -1,0 +1,18 @@
+import dotenv from "dotenv";
+import mongoose from "mongoose";
+
+dotenv.config();
+
+export const config = {
+  port: process.env.PORT || 1111,
+  mongoURI:
+    process.env.MONGO_URI ||
+    (() => {
+      throw new Error("MONGO_URI is missing in .env");
+    })(),
+  bot:
+    process.env.BOT_TOKEN ||
+    (() => {
+      throw new Error("BOT token is missing in .env");
+    })(),
+};
