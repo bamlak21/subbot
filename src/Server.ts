@@ -1,8 +1,6 @@
 import express from "express";
 import { config } from "./config/index";
 import { ConnectDB } from "./config/db";
-import { Groups } from "./model/groups.model";
-import { Types } from "mongoose";
 
 const app = express();
 

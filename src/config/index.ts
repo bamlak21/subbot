@@ -14,4 +14,9 @@ export const config = {
     (() => {
       throw new Error("BOT token is missing in .env");
     })(),
+  paymentToken:
+    process.env.CHAPA_PROVIDER_TOKEN ||
+    (() => {
+      throw new Error("Provider token missing in .env");
+    })(),
 };

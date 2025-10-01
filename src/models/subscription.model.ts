@@ -1,10 +1,5 @@
 import mongoose, { model, Schema } from "mongoose";
-
-enum Status {
-  PENDING = "pending",
-  ACTIVE = "active",
-  Expired = "expired",
-}
+import { Status } from "../types/subscription.type";
 
 const SubscriptionSchema = new Schema(
   {
@@ -14,7 +9,7 @@ const SubscriptionSchema = new Schema(
       ref: "User",
       required: true,
     },
-    telegramId: { type: String, required: true },
+    telegramId: { type: Number, required: true },
     status: {
       type: String,
       enum: Object.values(Status),
