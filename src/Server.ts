@@ -16,4 +16,13 @@ async function StartServer() {
   }
 }
 
+
+async function create() {
+  await Groups.create({
+    groupId: "1002776270741",
+    owner: "68dfcc25e878127b7bf40509",
+    subscriptionPrice: 200,
+  });
+}
+
 StartServer();
