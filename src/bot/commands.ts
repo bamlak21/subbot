@@ -1,11 +1,6 @@
-import { FindGroup } from "../services/groups.service";
-import { CreateInvoice } from "../services/payment.service";
-import {
-  CreateSubscription,
-  FindExistingSubscription,
-} from "../services/subscription.service";
-import { FindOrCreateUser } from "../services/user.service";
-import { Status } from "../types/subscription.type";
+import { findGroup } from "../services/groups.service";
+import { handleNewSubscription } from "../services/payment.service";
+import { findOrCreateUser } from "../services/user.service";
 import { bot } from "./index";
 
 bot.start(async (ctx) => {
@@ -17,12 +12,12 @@ bot.start(async (ctx) => {
   if (!groupId) await ctx.reply("No Group Id found!");
 
   try {
-    const user = await FindOrCreateUser(id, username, first_name);
+    const user = await findOrCreateUser(id, username, first_name);
     if (!user) return "User Not Found";
-    const group = await FindGroup(groupId);
+    const group = await findGroup(groupId);
     if (!group) return "Group Not Found";
 
-    await CreateInvoice({
+    await handleNewSubscription({
       ctx,
       subscriptionPrice: group.subscriptionPrice,
       userId: user._id,
