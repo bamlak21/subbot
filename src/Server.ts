@@ -1,6 +1,7 @@
 import express from "express";
 import { config } from "./config/index";
 import { ConnectDB } from "./config/db";
+import "./cron/subscription.cron";
 
 const app = express();
 

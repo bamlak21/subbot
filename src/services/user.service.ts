@@ -1,6 +1,6 @@
 import { User } from "../models/user.model";
 
-export const FindUser = async (telegramId: number) => {
+export const findUser = async (telegramId: number) => {
   try {
     return await User.findOne({ telegramId });
   } catch (error) {
@@ -8,7 +8,7 @@ export const FindUser = async (telegramId: number) => {
   }
 };
 
-export const FindOrCreateUser = async (
+export const findOrCreateUser = async (
   telegramId: number,
   username: string,
   first_name: string
