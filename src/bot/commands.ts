@@ -1,4 +1,4 @@
-import { findGroup } from "../services/groups.service";
+import { findGroup, sendGroupPhoto } from "../services/groups.service";
 import { handleNewSubscription } from "../services/payment.service";
 import { findOrCreateUser } from "../services/user.service";
 import { bot } from "./index";
@@ -17,6 +17,7 @@ bot.start(async (ctx) => {
     const group = await findGroup(groupId);
     if (!group) return "Group Not Found";
 
+    await sendGroupPhoto(ctx, groupId);
     await handleNewSubscription({
       ctx,
       subscriptionPrice: group.subscriptionPrice,
