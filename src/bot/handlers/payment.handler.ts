@@ -1,5 +1,17 @@
-import { MarkSubscriptionPaid } from "../../services/subscription.service";
+import { handleRenewalInvoice } from "../../services/payment.service";
+import { markSubscriptionPaid } from "../../services/subscription.service";
 import { bot } from "../index";
+
+bot.on("callback_query", async (ctx) => {
+  const callBackQuery = ctx.callbackQuery;
+
+  if ("data" in callBackQuery && typeof callBackQuery.data === "string") {
+    const data = callBackQuery.data;
+    await ctx.answerCbQuery();
+
+    await handleRenewalInvoice(ctx, data);
+  }
+});
 
 bot.on("pre_checkout_query", async (ctx) => {
   try {
@@ -13,7 +25,7 @@ bot.on("successful_payment", async (ctx) => {
   try {
     const payload = ctx.message.successful_payment.invoice_payload;
 
-    await MarkSubscriptionPaid(payload);
+    await markSubscriptionPaid(payload);
     await ctx.reply("🎉 Payment successful! Your subscription is now active.");
   } catch (err) {
     console.error("Failed to mark subscription paid:", err);
