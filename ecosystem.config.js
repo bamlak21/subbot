@@ -2,13 +2,13 @@ module.exports = {
   apps: [
     {
       name: "server",
-      script: "dist/server.js",
-      watch: false
+      script: "dist/Server.js",
+      watch: false,
     },
     {
       name: "bot",
-      script: "dist/bot.js",
-      watch: false
-    }
-  ]
-}
+      script: "dist/Bot.js",
+      watch: false,
+    },
+  ],
+};
