@@ -69,7 +69,7 @@ export const findSubscription = async (
     return "Missing required fields";
   }
   try {
-    const sub = await Subscription.findOne({ userId, groupId, status });
+    const sub = await Subscription.findOne({ userId, groupId });
 
     if (!sub) return "Failed to find subscription";
 
