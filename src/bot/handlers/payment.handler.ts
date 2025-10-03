@@ -25,8 +25,18 @@ bot.on("successful_payment", async (ctx) => {
   try {
     const payload = ctx.message.successful_payment.invoice_payload;
 
-    await markSubscriptionPaid(payload);
-    await ctx.reply("🎉 Payment successful! Your subscription is now active.");
+    const sub = await markSubscriptionPaid(payload);
+    if (!sub) {
+      return "Sub not found";
+    }
+
+    const invite = await bot.telegram.createChatInviteLink(`-${sub.groupId}`, {
+      member_limit: 1,
+    });
+    await ctx.reply(
+      `🎉 Payment successful! Your subscription is now active.\n\n` +
+        `Join the group using this link: ${invite.invite_link}`
+    );
   } catch (err) {
     console.error("Failed to mark subscription paid:", err);
   }
