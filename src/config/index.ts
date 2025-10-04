@@ -19,4 +19,9 @@ export const config = {
     (() => {
       throw new Error("Provider token missing in .env");
     })(),
+  openRouter:
+    process.env.OPENROUTER_API_KEY ||
+    (() => {
+      throw new Error("Open router api key is missing in .env");
+    })(),
 };
