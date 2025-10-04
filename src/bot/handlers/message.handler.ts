@@ -20,6 +20,23 @@ bot.on("new_chat_members", async (ctx) => {
       console.log(`Removed ${member.first_name} for not paying.`);
     }
   }
+
+  for (const member of newMembers) {
+    const username = member.username;
+    console.log(`New User Joined: ${username}`);
+    const welcome = await ctx.reply(`
+        👋 Welcome, @${username}!\n\nPlease make sure to follow the group rules:\n1. Be respectful
+        \n2. No spam\n3. Follow admin instructions`);
+
+    setTimeout(async () => {
+      try {
+        await ctx.deleteMessage(welcome.message_id);
+        console.log("Welcome message Deleted");
+      } catch (error) {
+        console.log("Failed to delete welcome message: ", error);
+      }
+    }, 60000);
+  }
 });
 
 bot.on("left_chat_member", async (ctx) => {
