@@ -130,9 +130,15 @@ export const getExpiringSubscriptions = async (daysBefore: number = 3) => {
 export const checkNewUserSubscription = async (telegramId: number) => {
   try {
     const subs = await Subscription.find({ telegramId });
-    if (!subs) return false;
-    else return true;
+    if (subs.length === 0) return false;
+
+    for (const sub of subs) {
+      if (sub.status !== "active") return false;
+    }
+
+    return true;
   } catch (error) {
     console.error("Failed to look up subscription", error);
+    return "failed db look up";
   }
 };
