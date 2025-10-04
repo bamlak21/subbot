@@ -21,3 +21,12 @@ bot.on("new_chat_members", async (ctx) => {
     }
   }
 });
+
+bot.on("left_chat_member", async (ctx) => {
+  try {
+    await ctx.deleteMessage(ctx.message.message_id);
+    console.log("Deleted left message");
+  } catch (err) {
+    console.error("Failed to delete left message:", err);
+  }
+});
