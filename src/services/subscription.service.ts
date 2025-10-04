@@ -126,3 +126,13 @@ export const getExpiringSubscriptions = async (daysBefore: number = 3) => {
     console.error(error);
   }
 };
+
+export const checkNewUserSubscription = async (telegramId: number) => {
+  try {
+    const subs = await Subscription.find({ telegramId });
+    if (!subs) return false;
+    else return true;
+  } catch (error) {
+    console.error("Failed to look up subscription", error);
+  }
+};
