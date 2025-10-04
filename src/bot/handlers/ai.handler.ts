@@ -2,9 +2,13 @@ import { bot } from "../index";
 import { analyzeMessageAI } from "../../services/ai.service";
 
 bot.on("text", async (ctx) => {
+  console.log("Hello working on text");
+
   if (ctx.message.from.is_bot) return;
 
   const text = ctx.message.text;
+  console.log(text);
+
   const user = ctx.message.from.username;
   const result = await analyzeMessageAI(text);
 

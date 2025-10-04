@@ -22,7 +22,7 @@ Message: """${message}"""
     `;
 
     const response = await openai.chat.completions.create({
-      model: "deepseek-v3:free",
+      model: "gpt-3.5-turbo",
       messages: [
         { role: "system", content: "You are a content moderator." },
         { role: "user", content: prompt },

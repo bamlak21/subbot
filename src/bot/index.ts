@@ -5,3 +5,4 @@ export const bot = new Telegraf(config.bot);
 
 import "./commands";
 import "./handlers/payment.handler";
+import "./handlers/ai.handler";
