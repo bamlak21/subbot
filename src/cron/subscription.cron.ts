@@ -2,7 +2,7 @@ import cron from "node-cron";
 import { getExpiringSubscriptions } from "../services/subscription.service";
 import { bot } from "../bot";
 
-cron.schedule("* * * * *", async () => {
+cron.schedule("0 0 * * *", async () => {
   console.log("🔁 Running expiration and reminder check...");
 
   try {
