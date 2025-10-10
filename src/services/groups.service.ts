@@ -39,3 +39,40 @@ export const sendGroupPhoto = async (ctx: Context, groupId: string) => {
     console.error(error);
   }
 };
+
+export const getAllGroupsAdmin = async (
+  page: number,
+  limit: number,
+  search: string
+) => {
+  const query = search
+    ? {
+        $or: [{ owner: { $regex: search, $options: "i" } }],
+      }
+    : {};
+  try {
+    const groups = await Groups.find(query)
+      .skip((page - 1) * limit)
+      .limit(limit)
+      .lean();
+
+    const totalGroups = await Groups.countDocuments(query);
+
+    return { totalGroups, groups, page, limit };
+  } catch (error) {
+    console.error("Failed to get groups", error);
+    throw error;
+  }
+};
+
+export const getGroupAdmin = async (id: string) => {
+  try {
+    return await Groups.findById(id).populate(
+      "owner",
+      "telegramId balance username"
+    );
+  } catch (error) {
+    console.error("Failed to get group:", error);
+    throw error;
+  }
+};
