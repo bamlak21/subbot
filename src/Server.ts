@@ -2,8 +2,11 @@ import express from "express";
 import { config } from "./config/index";
 import { ConnectDB } from "./config/db";
 import "./cron/subscription.cron";
+import adminRoutes from "./routes/admin.route";
 
 const app = express();
+
+app.use("/api/admin", adminRoutes);
 
 async function StartServer() {
   try {
