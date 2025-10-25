@@ -5,6 +5,7 @@ export interface IUser {
   firstName: String;
   telegramId: Number;
   balance: Number;
+  // role: "owner" | "admin";
 }
 
 const UserSchema = new Schema(
