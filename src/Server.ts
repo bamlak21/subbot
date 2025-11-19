@@ -3,10 +3,12 @@ import { config } from "./config/index";
 import { ConnectDB } from "./config/db";
 import "./cron/subscription.cron";
 import adminRoutes from "./routes/admin.route";
+import authRoutes from "./routes/auth.route";
 
 const app = express();
 
 app.use("/api/admin", adminRoutes);
+app.use("/api/auth", authRoutes);
 
 async function StartServer() {
   try {
