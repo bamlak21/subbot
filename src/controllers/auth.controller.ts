@@ -5,7 +5,9 @@ import { findOrCreateUser } from "../services/user.service";
 import { generateToken } from "../utils/jwtUtils";
 
 export const telegramAuth = async (req: Request, res: Response) => {
-  const authData = urlStrToAuthDataMap(req.url);
+  const fullUrl = `${req.protocol}://${req.get("host")}${req.originalUrl}`;
+
+  const authData = urlStrToAuthDataMap(fullUrl);
 
   const validator = new AuthDataValidator({
     botToken: config.bot,
