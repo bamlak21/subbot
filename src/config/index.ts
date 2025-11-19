@@ -24,4 +24,9 @@ export const config = {
     (() => {
       throw new Error("Open router api key is missing in .env");
     })(),
+  secret:
+    process.env.JWT_SECRET ||
+    (() => {
+      throw new Error("Jwt secret missing");
+    })(),
 };

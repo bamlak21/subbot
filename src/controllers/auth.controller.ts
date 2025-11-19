@@ -1,8 +1,33 @@
-import { log } from "console";
 import { Request, Response } from "express";
+import { urlStrToAuthDataMap, AuthDataValidator } from "@telegram-auth/server";
+import { config } from "../config";
+import { findOrCreateUser } from "../services/user.service";
+import { generateToken } from "../utils/jwtUtils";
 
 export const telegramAuth = async (req: Request, res: Response) => {
-  const { first_name, username, id, photo_url, auth_date, hash } = req.query;
+  const authData = urlStrToAuthDataMap(req.url);
 
-  log(first_name, username, id, photo_url, auth_date, hash);
+  const validator = new AuthDataValidator({
+    botToken: config.bot,
+  });
+
+  const user = await validator.validate(authData);
+
+  if (!user) {
+  }
+
+  const dbUser = await findOrCreateUser(
+    user.id,
+    user.username || "",
+    user.first_name
+  );
+
+  let payload = {
+    id: dbUser?._id,
+    telegramId: dbUser?.telegramId,
+  };
+
+  const token = generateToken(payload);
+
+  return res.status(200).json({ message: "Success", user: dbUser, token });
 };
