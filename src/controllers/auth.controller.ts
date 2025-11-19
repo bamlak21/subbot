@@ -29,5 +29,7 @@ export const telegramAuth = async (req: Request, res: Response) => {
 
   const token = generateToken(payload);
 
-  return res.status(200).json({ message: "Success", user: dbUser, token });
+  return res.redirect(
+    `https://subbot-dash.bamlak.dev/auth/success?token=${token}`
+  );
 };
