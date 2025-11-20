@@ -9,10 +9,7 @@ import { AuthReq } from "../types/auth.type";
 export const telegramAuth = async (req: Request, res: Response) => {
   const fullUrl = `${req.protocol}://${req.get("host")}${req.originalUrl}`;
 
-  log("URL: ", fullUrl);
-
   const authData = urlStrToAuthDataMap(fullUrl);
-  log("Auth data", authData);
 
   const validator = new AuthDataValidator({
     botToken: config.bot,
@@ -43,7 +40,7 @@ export const telegramAuth = async (req: Request, res: Response) => {
 
 export const userDetails = async (req: AuthReq, res: Response) => {
   const user = req.user;
-
+  log(user);
   if (!user) {
     return res.status(404).json({ message: "user not found" });
   }
@@ -54,6 +51,7 @@ export const userDetails = async (req: AuthReq, res: Response) => {
 
   try {
     const userDetails = await findUser(user.telegramId);
+    log(userDetails);
     return res.status(200).json({ user: userDetails });
   } catch (error) {
     console.log("Fetching user details failed", error);
