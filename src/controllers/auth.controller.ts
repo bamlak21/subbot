@@ -52,7 +52,14 @@ export const userDetails = async (req: AuthReq, res: Response) => {
   try {
     const userDetails = await findUser(user.telegramId);
     log(userDetails);
-    return res.status(200).json({ user: userDetails });
+    return res
+      .status(200)
+      .json({
+        id: userDetails?._id,
+        fistName: userDetails?.firstName,
+        username: userDetails?.username,
+        balance: userDetails?.balance,
+      });
   } catch (error) {
     console.log("Fetching user details failed", error);
     return res.status(500).json({ message: "failed to fetch user details" });
