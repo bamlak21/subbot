@@ -1,9 +1,10 @@
 import { Request, Response } from "express";
 import { urlStrToAuthDataMap, AuthDataValidator } from "@telegram-auth/server";
 import { config } from "../config";
-import { findOrCreateUser } from "../services/user.service";
+import { findOrCreateUser, findUser } from "../services/user.service";
 import { generateToken } from "../utils/jwtUtils";
 import { log } from "console";
+import { AuthReq } from "../types/auth.type";
 
 export const telegramAuth = async (req: Request, res: Response) => {
   const fullUrl = `${req.protocol}://${req.get("host")}${req.originalUrl}`;
@@ -38,4 +39,24 @@ export const telegramAuth = async (req: Request, res: Response) => {
   return res.redirect(
     `https://subbot-dash.bamlak.dev/auth/success?token=${token}`
   );
+};
+
+export const userDetails = async (req: AuthReq, res: Response) => {
+  const user = req.user;
+
+  if (!user) {
+    return res.status(404).json({ message: "user not found" });
+  }
+
+  if (typeof user.telegramId !== "number") {
+    return res.status(400).json({ message: "invalid or missing telegramId" });
+  }
+
+  try {
+    const userDetails = await findUser(user.telegramId);
+    return res.status(200).json({ user: userDetails });
+  } catch (error) {
+    console.log("Fetching user details failed", error);
+    return res.status(500).json({ message: "failed to fetch user details" });
+  }
 };
