@@ -3,11 +3,15 @@ import { urlStrToAuthDataMap, AuthDataValidator } from "@telegram-auth/server";
 import { config } from "../config";
 import { findOrCreateUser } from "../services/user.service";
 import { generateToken } from "../utils/jwtUtils";
+import { log } from "console";
 
 export const telegramAuth = async (req: Request, res: Response) => {
   const fullUrl = `${req.protocol}://${req.get("host")}${req.originalUrl}`;
 
+  log("URL: ", fullUrl);
+
   const authData = urlStrToAuthDataMap(fullUrl);
+  log("Auth data", authData);
 
   const validator = new AuthDataValidator({
     botToken: config.bot,
